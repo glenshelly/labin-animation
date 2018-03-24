@@ -56,7 +56,7 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <attach>false</attach>
-                    <finalName>missing_letters</finalName>
+                    <finalName>animation</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
