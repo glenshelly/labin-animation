@@ -39,7 +39,7 @@ Running the application
 To run the application on a single given string, execute the missing_letters jar with a input string parameter
 ```angular2html
 
-   > java  -jar  target/missing_letters.jar  <input-string-parameter>
+   > java  -jar  target/missing_letters.jar  {input-string-parameter}
 ```
 
 For example, to test a string such as "alert brown dog," 
@@ -61,7 +61,8 @@ Notes on the Implementation
 Assumptions regarding the requirements
 --------------------------------------
 
-1. An input of null will be treated the same as an input of ""
+1. An bad speed (less than or equal to 0) will result in an IllegalArgumentException
+1. A null input String will result in an IllegalArgumentException
 
 Likely Improvements in real life
 --------------------------------

@@ -60,7 +60,7 @@
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
-                            <mainClass>com.glen.animation.Animation</mainClass>
+                            <mainClass>com.glen.animation.AnimateParticles</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
