@@ -49,10 +49,15 @@ run the application as follows (using quotes to surround input with spaces):
    > java -jar target/missing_letters.jar "alert brown dog"
 ```
 
+Generating and Testing Large Chambers
+------------------------
 
-Results Location
-----------------
-The results will overwrite the original values in slcsp.csv
+A helper class called ParticleSubmitter (in com.glen.aniation.generator) can be used to generate
+Very Large Chambers for testing.   Adjust the values at the start of the main() method to 
+vary the contents, size and quantity of the auto-generated and submitted chambers.
+
+Using this approach on a basic development laptop provided the following preliminary benchmark: 
+a 10,000,000 character chamber with 4,000,000 particles took between 300ms and 1,300ms to process.
 
 
 Notes on the Implementation
@@ -63,13 +68,14 @@ Assumptions regarding the requirements
 
 1. An bad speed (less than or equal to 0) will result in an IllegalArgumentException
 1. A null input String will result in an IllegalArgumentException
+1. The values for left and right particles in the input string are case sensitive.
+
 
 Likely Improvements in real life
 --------------------------------
 Depending on the actual usage for this (a one-off script?  a production-grade application?), the
 following improvements might be appropriate:
 
-- Use a properties file for such things as chunkSize
 - Add additional tests
 - Use a real logging system (e.g., log4j)
 

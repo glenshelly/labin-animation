@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Determine and render periodic location of moving particles in a linear chamber
+ * Determine and report on periodic location of moving particles in a linear chamber
  */
 public class AnimateParticles {
 
@@ -39,7 +39,7 @@ public class AnimateParticles {
 
 
     /**
-     * Given a description of a chamber with left- and right-moving particles (provided by the input String),
+     * Given a description of a chamber with left- and right-moving particles (provided by the input string),
      *  determine the location at fixed intervals (provided by the given speed)
      *
      * @param speed the amount each particle moves, per 'tick'
@@ -76,28 +76,33 @@ public class AnimateParticles {
 
 
         // Prepare for the main loop
-        int skipableLeftMovingParticles = 0;  // no skipable left particles, at start
-        int skipableRightMovingParticles = 0; // no skipable right particles, at start
+        int skipableLeftMovingParticles = 0;  // no skipable-left-particles, at start
+        int skipableRightMovingParticles = 0; // no skipable-right-particles, at start
         final List<String> resultsAtEachSnapShot = new ArrayList<>();
-        // We'll re-use this same snapshot array each time - we'll just reset it
+        // We'll re-use this same snapshot array each time through the loop, simply resetting the values rather than
+        // creating and initializing a new object
         final byte[] currentParticleLocationSnapshot = new byte[inputStringLength];
 
 
+        // Main Loop
         // While there are still particles in the chamber, record their position and then move them
         while (skipableLeftMovingParticles < activeLeftMovingParticles || skipableRightMovingParticles < activeRightMovingParticles) {
 
             /*
                 Inside the loop, we'll do two things:
+
                     1. Record the current position of the particles, to be reported out
                     2. Move the particles
+
                 We'll do these two things first for the left particles, and then for the right particles
 
-                We've optimized the initialization and termination expressions of the for-loop
-                so that we examine particles still in the chamber
+                We've optimized the initialization and termination expressions of the for-loops below
+                so that we only examine particles still in the chamber
             */
 
 
-            // Initialize this current snapshot to be all periods; we'll overwrite certain spots within the loops, as appropriate
+            // Initialize this current snapshot to be all periods ('.');
+            // We'll overwrite certain spots within the loops, as appropriate
             Arrays.fill(currentParticleLocationSnapshot, ASCII_PERIOD);
 
             // LEFT Particles
@@ -111,8 +116,8 @@ public class AnimateParticles {
                     final int particleLocation = leftMovingArray[i];
                     currentParticleLocationSnapshot[particleLocation] = ASCII_X_INDICATOR;
 
-                    // Shift the  particle, to the left (subtract speed value)
-                    // If it has left the chamber, mark it as such, and increment our 'skipped' counter
+                    // Shift the  particle, to the left (by *subtracting* speed value)
+                    // If the particle has left the chamber, mark it as such, and increment the 'skipped' counter
                     int newPosition = particleLocation - speed;
                     if (newPosition < 0) {
                         newPosition = OUT_OF_CHAMBER;
@@ -124,6 +129,7 @@ public class AnimateParticles {
 
             // RIGHT Particles
             // Record a snapshot of the right-movers still in the chamber
+            //    (These recordings may coincide with left-moving particles, recorded above.)
             // Then shift them
             final boolean processRightMoving = skipableRightMovingParticles < activeRightMovingParticles;
             if (processRightMoving) {
@@ -134,8 +140,8 @@ public class AnimateParticles {
                     final int particleLocation = rightMovingArray[i];
                     currentParticleLocationSnapshot[particleLocation] = ASCII_X_INDICATOR;
 
-                    // Shift the particle, to the right (add speed value)
-                    // If it has left the chamber, mark it as such, and increment our 'skipped' counter
+                    // Shift the particle, to the right (by *adding* speed value)
+                    // If the particle has left the chamber, mark it as such, and increment the 'skipped' counter
                     int newPosition = particleLocation + speed;
                     if (newPosition >= inputStringLength) {
                         newPosition = OUT_OF_CHAMBER;
@@ -148,7 +154,7 @@ public class AnimateParticles {
             resultsAtEachSnapShot.add(new String(currentParticleLocationSnapshot));
         }
 
-        // At the very end here, Add a a final "all done" snapshot
+        // At the very end here, add a final "all done" snapshot to the return results
         Arrays.fill(currentParticleLocationSnapshot, ASCII_PERIOD);
         resultsAtEachSnapShot.add(new String(currentParticleLocationSnapshot));
 
